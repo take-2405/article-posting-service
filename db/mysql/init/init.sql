@@ -8,25 +8,83 @@ USE `app`;
 
 -- drop ----
 DROP TABLE IF EXISTS `users`;
-DROP TABLE IF EXISTS `users_genres`;
 DROP TABLE IF EXISTS `users_info`;
-DROP TABLE IF EXISTS `users_list`;
-DROP TABLE IF EXISTS `articles_contents`;
+DROP TABLE IF EXISTS `articles`;
 DROP TABLE IF EXISTS `articles_tag`;
 DROP TABLE IF EXISTS `articles_comments`;
 DROP TABLE IF EXISTS `articles_nice_status`;
+DROP TABLE IF EXISTS `articles_image`;
 
 -- create ----
 CREATE TABLE IF NOT EXISTS `app`.`users` (
     `id` VARCHAR(32) NOT NULL COMMENT 'ユーザID',
     `name` VARCHAR(32) NOT NULL COMMENT 'ユーザ名',
-    `image` VARCHAR(128) NOT NULL COMMENT 'プロフィール画像',
-    `year` int NOT NULL COMMENT '生年月日(年)',
-    `month` int NOT NULL COMMENT '生年月日(月)',
-    `day` int NOT NULL COMMENT '生年月日(日)',
-    `gender` int NOT NULL COMMENT '性別',
+    `age` int NOT NULL COMMENT '生年月日(年)',
     PRIMARY KEY (`id`),
     INDEX `idx_auth_token` (`id` ASC)
-    )
-    ENGINE = InnoDB
-    COMMENT = 'ユーザプロフィール';
+)
+ENGINE = InnoDB
+COMMENT = 'ユーザプロフィール';
+
+CREATE TABLE IF NOT EXISTS `app`.`users_info` (
+    `id` VARCHAR(64) NOT NULL COMMENT 'ユーザID',
+    `password` VARCHAR(64) NOT NULL COMMENT 'パスワード',
+    `token` VARCHAR(64) NOT NULL COMMENT 'トークン',
+    PRIMARY KEY (`id`)
+)
+ENGINE = InnoDB
+COMMENT = 'ユーザー認証情報';
+
+CREATE TABLE IF NOT EXISTS `app`.`articles` (
+    `article_id` VARCHAR(64) NOT NULL COMMENT '記事識別ID',
+    `title` VARCHAR(32) NOT NULL COMMENT '記事のタイトル',
+    `discription` VARCHAR(64) NOT NULL COMMENT '記事の内容',
+    `nice` int NOT NULL COMMENT 'いいね数',
+    `contents` text NOT NULL COMMENT '記事の内容',
+    `user_id` VARCHAR(64) NOT NULL COMMENT 'ユーザーID',
+    PRIMARY KEY (`article_id`)
+    FOREIGN KEY (`user_id`)
+    REFERENCES `app`.`users` (`id`)
+)
+ENGINE = InnoDB
+COMMENT = '記事の内容';
+
+CREATE TABLE IF NOT EXISTS `app`.`articles_image` (
+    `tag_id` VARCHAR(64) NOT NULL COMMENT 'タグID',
+    `article_id` VARCHAR(64) NOT NULL COMMENT '記事識別ID',
+    `article_tag` VARCHAR(32) NOT NULL COMMENT '記事のタグ',
+    PRIMARY KEY (`tag_id`)
+)
+ENGINE = InnoDB
+COMMENT = '記事のタグ';
+
+CREATE TABLE IF NOT EXISTS `app`.`articles_tag` (
+    `tag_id` VARCHAR(64) NOT NULL COMMENT 'タグID',
+    `article_id` VARCHAR(64) NOT NULL COMMENT '記事識別ID',
+    `article_tag` VARCHAR(32) NOT NULL COMMENT '記事のタグ',
+    PRIMARY KEY (`tag_id`)
+)
+ENGINE = InnoDB
+COMMENT = '記事のタグ';
+
+CREATE TABLE IF NOT EXISTS `app`.`articles_comments` (
+    `article_id` VARCHAR(64) NOT NULL COMMENT '記事識別ID',
+    `comments_id` VARCHAR(64) NOT NULL COMMENT 'コメントのID',
+    `comments_contents` VARCHAR(64) NOT NULL COMMENT 'コメントの内容',
+    `user_name` VARCHAR(64) NOT NULL COMMENT 'ユーザネーム',
+    `user_image` VARCHAR(128) NOT NULL COMMENT 'ユーザーの画像',
+    PRIMARY KEY (`comments_id`)
+)
+ENGINE = InnoDB
+COMMENT = '記事へのコメント';
+
+CREATE TABLE IF NOT EXISTS `app`.`articles_nice_status` (
+    `id` VARCHAR(64) NOT NULL COMMENT 'NiceID',
+    `article_id` VARCHAR(64) NOT NULL COMMENT '記事識別ID',
+    `user_id` VARCHAR(64) NOT NULL COMMENT 'ユーザID',
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`user_id`)
+    REFERENCES `app`.`users` (`id`)
+)
+ENGINE = InnoDB
+COMMENT = '記事にいいねした人';
