@@ -11,10 +11,8 @@ method:POST
 **ボディ**
 ```cassandraql
 {
-    "name": "string" ,
     "password": "string",
-    "age":18,
-    "email":"string"
+    "id":"string"
 }
 ```
 
@@ -24,6 +22,22 @@ method:POST
 "token": "string" 
 }
 ```
+
+### ユーザー情報登録
+##### リクエスト
+method:POST  
+**ヘッダー**  
+token:string
+
+**ボディ**
+```cassandraql
+{
+    "name": "string" ,
+    "age":18,
+}
+```
+変更したいものだけをリクエストに組み込む
+
 
 ### ログイン
 ##### リクエスト
