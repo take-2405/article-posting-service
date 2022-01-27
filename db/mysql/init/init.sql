@@ -1,0 +1,32 @@
+-- SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+-- SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+-- SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+SET CHARSET UTF8;
+DROP SCHEMA IF EXISTS `app`;
+CREATE SCHEMA IF NOT EXISTS `app` DEFAULT CHARACTER SET utf8;
+USE `app`;
+
+-- drop ----
+DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `users_genres`;
+DROP TABLE IF EXISTS `users_info`;
+DROP TABLE IF EXISTS `users_list`;
+DROP TABLE IF EXISTS `articles_contents`;
+DROP TABLE IF EXISTS `articles_tag`;
+DROP TABLE IF EXISTS `articles_comments`;
+DROP TABLE IF EXISTS `articles_nice_status`;
+
+-- create ----
+CREATE TABLE IF NOT EXISTS `app`.`users` (
+    `id` VARCHAR(32) NOT NULL COMMENT 'ユーザID',
+    `name` VARCHAR(32) NOT NULL COMMENT 'ユーザ名',
+    `image` VARCHAR(128) NOT NULL COMMENT 'プロフィール画像',
+    `year` int NOT NULL COMMENT '生年月日(年)',
+    `month` int NOT NULL COMMENT '生年月日(月)',
+    `day` int NOT NULL COMMENT '生年月日(日)',
+    `gender` int NOT NULL COMMENT '性別',
+    PRIMARY KEY (`id`),
+    INDEX `idx_auth_token` (`id` ASC)
+    )
+    ENGINE = InnoDB
+    COMMENT = 'ユーザプロフィール';
