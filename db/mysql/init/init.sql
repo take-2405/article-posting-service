@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `app`.`articles` (
     `nice` int NOT NULL COMMENT 'いいね数',
     `contents` text NOT NULL COMMENT '記事の内容',
     `user_id` VARCHAR(64) NOT NULL COMMENT 'ユーザーID',
-    PRIMARY KEY (`article_id`)
+    PRIMARY KEY (`article_id`),
     FOREIGN KEY (`user_id`)
     REFERENCES `app`.`users` (`id`)
 )
