@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `app`.`users` (
 ENGINE = InnoDB
 COMMENT = 'ユーザプロフィール';
 
-CREATE TABLE IF NOT EXISTS `app`.`users_info` (
+CREATE TABLE IF NOT EXISTS `app`.`user_infos` (
     `id` VARCHAR(64) NOT NULL COMMENT 'ユーザID',
     `password` VARCHAR(64) NOT NULL COMMENT 'パスワード',
     `token` VARCHAR(64) NOT NULL COMMENT 'トークン',
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `app`.`articles` (
 ENGINE = InnoDB
 COMMENT = '記事の内容';
 
-CREATE TABLE IF NOT EXISTS `app`.`articles_image` (
+CREATE TABLE IF NOT EXISTS `app`.`article_images` (
     `tag_id` VARCHAR(64) NOT NULL COMMENT 'タグID',
     `article_id` VARCHAR(64) NOT NULL COMMENT '記事識別ID',
     `article_tag` VARCHAR(32) NOT NULL COMMENT '記事のタグ',
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `app`.`articles_image` (
 ENGINE = InnoDB
 COMMENT = '記事のタグ';
 
-CREATE TABLE IF NOT EXISTS `app`.`articles_tag` (
+CREATE TABLE IF NOT EXISTS `app`.`article_tags` (
     `tag_id` VARCHAR(64) NOT NULL COMMENT 'タグID',
     `article_id` VARCHAR(64) NOT NULL COMMENT '記事識別ID',
     `article_tag` VARCHAR(32) NOT NULL COMMENT '記事のタグ',
@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `app`.`articles_tag` (
 ENGINE = InnoDB
 COMMENT = '記事のタグ';
 
-CREATE TABLE IF NOT EXISTS `app`.`articles_comments` (
+CREATE TABLE IF NOT EXISTS `app`.`article_comments` (
     `article_id` VARCHAR(64) NOT NULL COMMENT '記事識別ID',
     `comments_id` VARCHAR(64) NOT NULL COMMENT 'コメントのID',
     `comments_contents` VARCHAR(64) NOT NULL COMMENT 'コメントの内容',
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `app`.`articles_comments` (
 ENGINE = InnoDB
 COMMENT = '記事へのコメント';
 
-CREATE TABLE IF NOT EXISTS `app`.`articles_nice_status` (
+CREATE TABLE IF NOT EXISTS `app`.`article_nice_statuss` (
     `id` VARCHAR(64) NOT NULL COMMENT 'NiceID',
     `article_id` VARCHAR(64) NOT NULL COMMENT '記事識別ID',
     `user_id` VARCHAR(64) NOT NULL COMMENT 'ユーザID',
