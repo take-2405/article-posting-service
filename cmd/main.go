@@ -1,20 +1,16 @@
 package main
 
 import (
-	"log"
 	"net/http"
-	"prac-orm-transaction/api/middleware"
 	router2 "prac-orm-transaction/api/router"
+	"prac-orm-transaction/di"
 )
 
 func main() {
-	if err := middleware.Init(); err != nil {
-		log.Fatal(err)
-	}
-
+	//ルーターを初期化
 	router := router2.NewServer()
-	router.Routing()
-
+	//ルーティングとDI
+	di.InsertUserDI(router)
 	//if *router. {
 	//	// fmt.Println(docgen.JSONRoutesDoc(r))
 	//	fmt.Println(docgen.MarkdownRoutesDoc(r, docgen.MarkdownOpts{
@@ -24,5 +20,6 @@ func main() {
 	//	return
 	//}
 
+	//ルーター起動
 	http.ListenAndServe(":8000", router.Router)
 }

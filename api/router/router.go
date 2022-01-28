@@ -5,6 +5,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"net/http"
+	"prac-orm-transaction/api/controller"
 	"prac-orm-transaction/api/response"
 	"time"
 )
@@ -20,18 +21,21 @@ func NewServer() *Server {
 }
 
 // Router ルーティング設定
-func (s *Server) Routing() {
+func (s *Server) Routing(uh controller.UserHandler) {
 	s.Router.Use(middleware.Timeout(60 * time.Second))
-
-	s.Router.Route("/api", func(api chi.Router) {
-		api.Use(Auth("db connection"))                 // /api/*で必ず通るミドルウェア
-		api.Route("/users", func(members chi.Router) { // /api/members/* でグループ化
-			//members.Get("/{id}") // /api/members/1  などで受け取るハンドラ
-			members.Get("/", func(w http.ResponseWriter, r *http.Request) {
-				w.Write([]byte("hello world"))
-			}) // /api/members で受け取るハンドラ
-		})
+	s.Router.Route("/sign", func(api chi.Router) {
+		api.Use(Auth("db connection")) // /api/*で必ず通るミドルウェア
+		s.Router.Post("/up", uh.CreateUserAccount())
 	})
+	s.Router.Post("/sign/up", uh.CreateUserAccount())
+	//s.Router.Route("/api", func(api chi.Router) {
+	//	api.Use(Auth("db connection"))                 // /api/*で必ず通るミドルウェア
+	//	api.Route("/users", func(members chi.Router) { // /api/members/* でグループ化
+	//		members.Get("/", func(w http.ResponseWriter, r *http.Request) {
+	//			w.Write([]byte("hello world"))
+	//		}) // /api/members で受け取るハンドラ
+	//	})
+	//})
 	s.Router.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("hello world"))
 	})
