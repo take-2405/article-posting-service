@@ -1,7 +1,19 @@
 # prac-orm-transaction
 ## 動作方法(随時変更)
 - Docker, Docker-compose, go の開発環境が整っていることを前提とする
-1. DBを起動
+
+**makeコマンドが使用できる場合**  
+1.1. DBを起動
+```cassandraql
+make compose-up
+```
+2. アプリケーションを起動
+```cassandraql
+make run
+```
+
+**makeコマンドが使用できない場合**  
+1DBを起動
 ```cassandraql
 docker-compose up -d
 ```
@@ -12,8 +24,8 @@ go run cmd/main.go
 
 ## 基本概要
 #### リポジトリ概要
-本リポジトリでは、情報記事管理サービスを想定し、普段あまり触れたことのないライブラリ（chi、orm）の使用と
-DDD+CQRSを採用した開発になれることを目的としている．
+本リポジトリでは、Qiitaのような記事管理サービスを想定し、あまり触れたことのないライブラリ（chi、orm）の使用と
+**DDD+CQRS**を採用した開発になれることを目的としている．
 
 #### 開発フロー
 - git-flow
@@ -30,7 +42,19 @@ go lint は非推奨のため未使用
 
 #### ディレクトリ構成
 ```
-
+./
+├── api
+│   ├── controller
+│   ├── middleware
+│   ├── request
+│   ├── response
+│   └── router
+├── usecase
+├── cmd
+├── config
+├── di
+├── domain
+└── infrastructure
 ```
 
 #### 製作者

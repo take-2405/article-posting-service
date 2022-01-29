@@ -1,12 +1,11 @@
 package router
 
 import (
-	"fmt"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"net/http"
+	middleware2 "prac-orm-transaction/api/middleware"
 	"prac-orm-transaction/api/controller"
-	"prac-orm-transaction/api/response"
 	"time"
 )
 
@@ -23,41 +22,36 @@ func NewServer() *Server {
 // Router ルーティング設定
 func (s *Server) Routing(uh controller.UserHandler) {
 	s.Router.Use(middleware.Timeout(60 * time.Second))
+	s.Router.Use(middleware.Logger)
 	s.Router.Route("/sign", func(api chi.Router) {
-		api.Use(Auth("db connection")) // /api/*で必ず通るミドルウェア
-		s.Router.Post("/up", uh.CreateUserAccount())
-	})
-	s.Router.Post("/sign/up", uh.CreateUserAccount())
-	//s.Router.Route("/api", func(api chi.Router) {
-	//	api.Use(Auth("db connection"))                 // /api/*で必ず通るミドルウェア
-	//	api.Route("/users", func(members chi.Router) { // /api/members/* でグループ化
-	//		members.Get("/", func(w http.ResponseWriter, r *http.Request) {
-	//			w.Write([]byte("hello world"))
-	//		}) // /api/members で受け取るハンドラ
-	//	})
-	//})
-	s.Router.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("hello world"))
-	})
-	// Authする何かのエンドポイントという想定
-	//s.router.Route("/api/auth", func(auth chi.Router) {
-	//	auth.Get("/login")
-	//})
-}
-
-func Auth(db string) (fn func(http.Handler) http.Handler) { // 引数名を指定してるのでreturnのみでおｋ
-	fn = func(h http.Handler) http.Handler {
-		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			token := r.Header.Get("Auth") // Authというヘッダの値を取得する
-			if token != "admin" {         // adminという文字列か見る
-				// エラーレスポンスを返す
-				// この関数については後で書きます
-				response.RespondError(w, http.StatusUnauthorized, fmt.Errorf("利用権限がありません"))
-				return
-			}
-			// 何も無ければ次のハンドラを実行する
-			h.ServeHTTP(w, r)
+		api.Route("/up", func(signup chi.Router) {
+			signup.Post("/", uh.CreateUserAccount())
 		})
-	}
-	return
+		api.Route("/in", func(signin chi.Router) {
+			signin.Post("/", uh.SignIn())
+		})
+	})
+
+	s.Router.Route("/article", func(api chi.Router) {
+		api.Use(middleware2.Auth()) // /api/*で必ず通るミドルウェア
+		api.Route("/create", func(create chi.Router) {
+			create.Post("/",func(w http.ResponseWriter, r *http.Request) {
+				w.Write([]byte("create"))
+			})
+		})
+		api.Route("/fix", func(fix chi.Router) {
+			fix.Put("/",func(w http.ResponseWriter, r *http.Request) {
+				w.Write([]byte("fix"))
+			})
+		})
+		api.Route("/search", func(search chi.Router) {
+			search.Put("/",func(w http.ResponseWriter, r *http.Request) {
+				w.Write([]byte("search"))
+			})
+		})
+	})
+
+	s.Router.Get("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("hello"))
+	})
 }

@@ -12,6 +12,7 @@ import (
 
 type UserHandler interface {
 	CreateUserAccount() http.HandlerFunc
+	SignIn() http.HandlerFunc
 }
 
 type userHandler struct {
@@ -31,17 +32,38 @@ func (uh *userHandler) CreateUserAccount() http.HandlerFunc {
 		if accountInfo.ID == "" || accountInfo.Pass == "" {
 			log.Println("[ERROR] request bucket is err")
 			response.RespondError(writer, http.StatusBadRequest, fmt.Errorf("リクエスト情報が不足しています"))
+			return
 		}
 
 		token, err := uh.userUseCase.CreateUserAccount(accountInfo.ID, accountInfo.Pass)
 		if err != nil {
 			response.RespondError(writer, http.StatusInternalServerError, err)
+			return
 		}
 
-		if token == "" {
-			response.RespondError(writer, http.StatusInternalServerError, fmt.Errorf("tokenが空です"))
+
+		writer.Write([]byte(token))
+	}
+}
+
+func (uh *userHandler) SignIn() http.HandlerFunc {
+	return func(writer http.ResponseWriter, request *http.Request) {
+		// リクエストBodyから更新後情報を取得
+		var accountInfo request2.CreateUserAccountRequest
+		json.NewDecoder(request.Body).Decode(&accountInfo)
+
+		if accountInfo.ID == "" || accountInfo.Pass == "" {
+			log.Println("[ERROR] request bucket is err")
+			response.RespondError(writer, http.StatusBadRequest, fmt.Errorf("リクエスト情報が不足しています"))
+			return
 		}
 
-		writer.Write([]byte("hello new user!"))
+		token, err := uh.userUseCase.SignIn(accountInfo.ID, accountInfo.Pass)
+		if err != nil {
+			response.RespondError(writer, http.StatusInternalServerError, err)
+			return
+		}
+
+		writer.Write([]byte(token))
 	}
 }

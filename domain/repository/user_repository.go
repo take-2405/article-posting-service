@@ -2,5 +2,5 @@ package repository
 
 type UserRepository interface {
 	CreateUsersAccount(id, pass, token string) error
-	RegisterUsersInfo()
+	RegisterUsersInfo(id, pass, token string) error
 }
