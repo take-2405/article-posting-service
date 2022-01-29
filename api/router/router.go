@@ -24,29 +24,34 @@ func (s *Server) Routing(uh controller.UserHandler) {
 	s.Router.Use(middleware.Timeout(60 * time.Second))
 	s.Router.Use(middleware.Logger)
 	s.Router.Route("/sign", func(api chi.Router) {
-		api.Use(middleware2.Auth("db connection")) // /api/*で必ず通るミドルウェア
 		api.Route("/up", func(signup chi.Router) {
-			signup.Post("/",uh.CreateUserAccount())
+			signup.Post("/", uh.CreateUserAccount())
 		})
 		api.Route("/in", func(signin chi.Router) {
-			signin.Post("/",func(w http.ResponseWriter, r *http.Request) {
-						w.Write([]byte("hello world"))
-					})
+			signin.Post("/", uh.SignIn())
 		})
 	})
-	//s.Router.Route("/api", func(api chi.Router) {
-	//	api.Use(Auth("db connection"))                 // /api/*で必ず通るミドルウェア
-	//	api.Route("/users", func(members chi.Router) { // /api/members/* でグループ化
-	//		members.Get("/", func(w http.ResponseWriter, r *http.Request) {
-	//			w.Write([]byte("hello world"))
-	//		}) // /api/members で受け取るハンドラ
-	//	})
-	//})
-	s.Router.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("hello world"))
+
+	s.Router.Route("/article", func(api chi.Router) {
+		api.Use(middleware2.Auth()) // /api/*で必ず通るミドルウェア
+		api.Route("/create", func(create chi.Router) {
+			create.Post("/",func(w http.ResponseWriter, r *http.Request) {
+				w.Write([]byte("create"))
+			})
+		})
+		api.Route("/fix", func(fix chi.Router) {
+			fix.Put("/",func(w http.ResponseWriter, r *http.Request) {
+				w.Write([]byte("fix"))
+			})
+		})
+		api.Route("/search", func(search chi.Router) {
+			search.Put("/",func(w http.ResponseWriter, r *http.Request) {
+				w.Write([]byte("search"))
+			})
+		})
 	})
-	// Authする何かのエンドポイントという想定
-	//s.router.Route("/api/auth", func(auth chi.Router) {
-	//	auth.Get("/login")
-	//})
+
+	s.Router.Get("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("hello"))
+	})
 }

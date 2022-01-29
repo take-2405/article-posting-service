@@ -8,7 +8,7 @@ import(
 	"prac-orm-transaction/api/response"
 )
 
-func Auth(db string) (fn func(http.Handler) http.Handler) { // 引数名を指定してるのでreturnのみでおｋ
+func Auth() (fn func(http.Handler) http.Handler) { // 引数名を指定してるのでreturnのみでおｋ
 	fn = func(h http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			token := r.Header.Get("Token") // Authというヘッダの値を取得する
