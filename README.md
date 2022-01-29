@@ -24,8 +24,8 @@ go run cmd/main.go
 
 ## 基本概要
 #### リポジトリ概要
-本リポジトリでは、情報記事管理サービスを想定し、普段あまり触れたことのないライブラリ（chi、orm）の使用と
-DDD+CQRSを採用した開発になれることを目的としている．
+本リポジトリでは、Qiitaのような記事管理サービスを想定し、あまり触れたことのないライブラリ（chi、orm）の使用と
+**DDD+CQRS**を採用した開発になれることを目的としている．
 
 #### 開発フロー
 - git-flow
@@ -49,18 +49,12 @@ go lint は非推奨のため未使用
 │   ├── request
 │   ├── response
 │   └── router
-├── application
+├── usecase
 ├── cmd
 ├── config
 ├── di
 ├── domain
-│   ├── model
-│   └── repository
 └── infrastructure
-    ├── disutil
-    ├── mysql_repository.go
-    ├── mysql_hoge_persistence.go
-    └── table
 ```
 
 #### 製作者
