@@ -31,17 +31,16 @@ func (uh *userHandler) CreateUserAccount() http.HandlerFunc {
 		if accountInfo.ID == "" || accountInfo.Pass == "" {
 			log.Println("[ERROR] request bucket is err")
 			response.RespondError(writer, http.StatusBadRequest, fmt.Errorf("リクエスト情報が不足しています"))
+			return
 		}
 
 		token, err := uh.userUseCase.CreateUserAccount(accountInfo.ID, accountInfo.Pass)
 		if err != nil {
 			response.RespondError(writer, http.StatusInternalServerError, err)
+			return
 		}
 
-		if token == "" {
-			response.RespondError(writer, http.StatusInternalServerError, fmt.Errorf("tokenが空です"))
-		}
 
-		writer.Write([]byte("hello new user!"))
+		writer.Write([]byte(token))
 	}
 }
