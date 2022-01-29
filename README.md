@@ -1,7 +1,19 @@
 # prac-orm-transaction
 ## 動作方法(随時変更)
 - Docker, Docker-compose, go の開発環境が整っていることを前提とする
-1. DBを起動
+
+**makeコマンドが使用できる場合**  
+1.1. DBを起動
+```cassandraql
+make compose-up
+```
+2. アプリケーションを起動
+```cassandraql
+make run
+```
+
+**makeコマンドが使用できない場合**  
+1DBを起動
 ```cassandraql
 docker-compose up -d
 ```
@@ -30,7 +42,25 @@ go lint は非推奨のため未使用
 
 #### ディレクトリ構成
 ```
-
+./
+├── api
+│   ├── controller
+│   ├── middleware
+│   ├── request
+│   ├── response
+│   └── router
+├── application
+├── cmd
+├── config
+├── di
+├── domain
+│   ├── model
+│   └── repository
+└── infrastructure
+    ├── disutil
+    ├── mysql_repository.go
+    ├── mysql_user_persistence.go
+    └── table
 ```
 
 #### 製作者
