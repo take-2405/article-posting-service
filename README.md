@@ -59,7 +59,7 @@ go lint は非推奨のため未使用
 └── infrastructure
     ├── disutil
     ├── mysql_repository.go
-    ├── mysql_user_persistence.go
+    ├── mysql_hoge_persistence.go
     └── table
 ```
 
