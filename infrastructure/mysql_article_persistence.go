@@ -29,7 +29,7 @@ func (a *articlePersistence) CreateNewArticle(articleID, title, description, con
 	article.Contents = content
 	article.Nice = 0
 
-	str := "INSERT INTO article_tags (`tag_id`,`article_id`,`article_tag`) VALUES"
+	str := "INSERT INTO article_tags (`id`,`article_id`,`tag`) VALUES"
 	var s []string
 	var queryEnd string
 

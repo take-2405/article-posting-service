@@ -27,7 +27,7 @@ method:POST
 ##### リクエスト
 method:POST  
 **ヘッダー**  
-token:string
+Token:string
 
 **ボディ**
 ```cassandraql
@@ -62,7 +62,7 @@ method:POST
 ##### リクエスト
 method:PUT  
 **ヘッダー**  
-token:string  
+Token:string
 
 **ボディ**
 ```cassandraql
@@ -85,7 +85,7 @@ token:string
 ### 記事の投稿機能
 ##### リクエスト
 **ヘッダー**  
-token:string  
+Token:string
 method:POST  
 
 **ボディ**
@@ -93,6 +93,7 @@ method:POST
 {
   "title": "string",
   "description": "string",
+  "content":"string",
   "images": [
     {
       "image": "string"
@@ -115,13 +116,16 @@ method:POST
 ### 記事の修正機能
 ##### リクエスト
 **ヘッダー**  
-token:string  
+Token:string
+article_id:string
+
 method:PUT  
 **ボディ**
 ```cassandraql
 {
   "title": "string",
   "description": "string",
+  "content":"string",
   "images": [
     {
       "image": "string"
@@ -144,7 +148,8 @@ method:PUT
 
 ##### リクエスト
 **ヘッダー**  
-token:string  
+Token:string
+
 method:GET  
 PathParam:articlesNumber
 
@@ -164,7 +169,8 @@ PathParam:articlesNumber
 ### 記事閲覧機能(１つの記事の詳細な内容)
 ##### リクエスト
 **ヘッダー**  
-token:string  
+Token:string
+
 method:GET  
 PathParam:articleID
 
@@ -197,7 +203,8 @@ PathParam:articleID
 ### 記事に対する「高評価」機能
 ##### リクエスト
 **ヘッダー**  
-token:string  
+Token:string
+
 method:POST  
 PathParam:articleID
 ##### レスポンス
@@ -209,7 +216,8 @@ PathParam:articleID
 ### 記事に対するコメント機能
 ##### リクエスト
 **ヘッダー**  
-token:string  
+Token:string
+
 method:POST  
 PathParam:articleID  
 **ボディ**
