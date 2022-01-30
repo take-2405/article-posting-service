@@ -4,8 +4,8 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"net/http"
-	"prac-orm-transaction/interface/controller"
-	middleware2 "prac-orm-transaction/interface/middleware"
+	"prac-orm-transaction/presentation/controller"
+	middleware2 "prac-orm-transaction/presentation/middleware"
 	"time"
 )
 

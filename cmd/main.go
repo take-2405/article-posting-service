@@ -2,8 +2,9 @@ package main
 
 import (
 	"net/http"
+	"prac-orm-transaction/config"
 	"prac-orm-transaction/di"
-	router2 "prac-orm-transaction/interface/router"
+	router2 "prac-orm-transaction/presentation/router"
 )
 
 func main() {
@@ -12,6 +13,7 @@ func main() {
 	//ルーティングとDI
 	di.InsertUserDI(router)
 
+	port := config.GetServerPort()
 	//ルーター起動
-	http.ListenAndServe(":8000", router.Router)
+	http.ListenAndServe(port, router.Router)
 }

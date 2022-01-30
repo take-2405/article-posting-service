@@ -46,7 +46,7 @@ go lint は非推奨のため未使用
 #### ディレクトリ構成
 ```
 ./
-├── api
+├── presentation
 │   ├── controller
 │   ├── middleware
 │   ├── request

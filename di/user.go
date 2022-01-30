@@ -2,8 +2,8 @@ package di
 
 import (
 	"prac-orm-transaction/infrastructure"
-	"prac-orm-transaction/interface/controller"
-	"prac-orm-transaction/interface/router"
+	"prac-orm-transaction/presentation/controller"
+	"prac-orm-transaction/presentation/router"
 	"prac-orm-transaction/usecase"
 )
 

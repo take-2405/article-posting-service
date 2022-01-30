@@ -5,13 +5,13 @@ import (
 	"net/http"
 	"prac-orm-transaction/infrastructure"
 	"prac-orm-transaction/infrastructure/table"
-	"prac-orm-transaction/interface/response"
+	"prac-orm-transaction/presentation/response"
 )
 
 func Auth() (fn func(http.Handler) http.Handler) { // 引数名を指定してるのでreturnのみでおｋ
 	fn = func(h http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			token := r.Header.Get("Token") // Authというヘッダの値を取得する
+			token := r.Header.Get("Token")
 
 			var dataExistsCheck table.UserInfo
 
@@ -23,14 +23,7 @@ func Auth() (fn func(http.Handler) http.Handler) { // 引数名を指定して�
 
 			r.Header.Set("userID", dataExistsCheck.ID)
 
-			//if token != "admin" {         // adminという文字列か見る
-			//	// エラーレスポンスを返す
-			//	// この関数については後で書きます
-			//	response.RespondError(w, http.StatusUnauthorized, fmt.Errorf("利用権限がありません"))
-			//	return
-			//}
-
-			// 何も無ければ次のハンドラを実行する
+			// 何も無ければ次のハンドラを実行
 			h.ServeHTTP(w, r)
 		})
 	}

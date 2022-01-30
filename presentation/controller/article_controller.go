@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	request2 "prac-orm-transaction/interface/request"
-	"prac-orm-transaction/interface/response"
+	request2 "prac-orm-transaction/presentation/request"
+	"prac-orm-transaction/presentation/response"
 	"prac-orm-transaction/usecase"
 )
 
@@ -35,7 +35,6 @@ func (ah *articleHandler) CreateArticle() http.HandlerFunc {
 
 		userID := request.Header.Get("userID")
 		json.NewDecoder(request.Body).Decode(&createArticleRequest)
-		log.Println(createArticleRequest)
 		if createArticleRequest.Content == "" || createArticleRequest.Title == "" || createArticleRequest.Description == "" {
 			log.Println("[ERROR] request bucket is err")
 			response.RespondError(writer, http.StatusBadRequest, fmt.Errorf("リクエスト情報が不足しています"))

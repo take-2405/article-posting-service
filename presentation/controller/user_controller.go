@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	request2 "prac-orm-transaction/interface/request"
-	"prac-orm-transaction/interface/response"
+	request2 "prac-orm-transaction/presentation/request"
+	"prac-orm-transaction/presentation/response"
 	"prac-orm-transaction/usecase"
 )
 

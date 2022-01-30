@@ -4,7 +4,7 @@ import (
 	"github.com/google/uuid"
 	"log"
 	"prac-orm-transaction/domain/repository"
-	"prac-orm-transaction/interface/request"
+	"prac-orm-transaction/presentation/request"
 )
 
 type ArticleUseCase interface {
