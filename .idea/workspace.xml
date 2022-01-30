@@ -5,13 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0864b16b-5c0a-4968-aa34-ce677196accc" name="変更" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/mysql/init/init.sql" beforeDir="false" afterPath="$PROJECT_DIR$/db/mysql/init/init.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/images/domain-model.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/images/domain-model.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/images/table.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/images/table.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/system-reqest-response.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/system-reqest-response.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/model/image.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/model/image.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/infrastructure/mysql_article_persistence.go" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/mysql_article_persistence.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
