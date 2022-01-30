@@ -1,16 +1,22 @@
 package di
 
 import (
-	"prac-orm-transaction/api/controller"
-	"prac-orm-transaction/api/router"
-	"prac-orm-transaction/application"
 	"prac-orm-transaction/infrastructure"
+	"prac-orm-transaction/interface/controller"
+	"prac-orm-transaction/interface/router"
+	"prac-orm-transaction/usecase"
 )
 
 func InsertUserDI(router *router.Server) {
 	conn := infrastructure.NewMysqlRepository()
+
 	userQuery := infrastructure.NewUserPersistence(*conn)
-	userUseCase := application.NewUserUseCase(userQuery)
+	articleQuery := infrastructure.NewArticlePersistence(*conn)
+
+	userUseCase := usecase.NewUserUseCase(userQuery)
+	articleUseCase := usecase.NewArticleUseCase(articleQuery)
+
 	useHandler := controller.NewUserHandler(userUseCase)
-	router.Routing(useHandler)
+	articleHandler := controller.NewArticleHandler(articleUseCase)
+	router.Routing(useHandler, articleHandler)
 }

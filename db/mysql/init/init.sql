@@ -36,15 +36,15 @@ ENGINE = InnoDB
 COMMENT = 'ユーザー認証情報';
 
 CREATE TABLE IF NOT EXISTS `app`.`articles` (
-    `article_id` VARCHAR(64) NOT NULL COMMENT '記事識別ID',
+    `id` VARCHAR(64) NOT NULL COMMENT '記事識別ID',
     `title` VARCHAR(32) NOT NULL COMMENT '記事のタイトル',
-    `discription` VARCHAR(64) NOT NULL COMMENT '記事の内容',
+    `description` VARCHAR(64) NOT NULL COMMENT '記事の内容',
     `nice` int NOT NULL COMMENT 'いいね数',
     `contents` text NOT NULL COMMENT '記事の内容',
     `user_id` VARCHAR(64) NOT NULL COMMENT 'ユーザーID',
-    PRIMARY KEY (`article_id`),
+    PRIMARY KEY (`id`),
     FOREIGN KEY (`user_id`)
-    REFERENCES `app`.`users` (`id`)
+    REFERENCES `app`.`user_infos` (`id`)
 )
 ENGINE = InnoDB
 COMMENT = '記事の内容';

@@ -1,11 +1,11 @@
 package middleware
 
-import(
-	"net/http"
-	"prac-orm-transaction/infrastructure/table"
-	"prac-orm-transaction/infrastructure"
+import (
 	"fmt"
-	"prac-orm-transaction/api/response"
+	"net/http"
+	"prac-orm-transaction/infrastructure"
+	"prac-orm-transaction/infrastructure/table"
+	"prac-orm-transaction/interface/response"
 )
 
 func Auth() (fn func(http.Handler) http.Handler) { // 引数名を指定してるのでreturnのみでおｋ
@@ -20,6 +20,8 @@ func Auth() (fn func(http.Handler) http.Handler) { // 引数名を指定して�
 			if dataExistsCheck.ID == "" {
 				response.RespondError(w, http.StatusUnauthorized, fmt.Errorf("利用権限がありません"))
 			}
+
+			r.Header.Set("userID", dataExistsCheck.ID)
 
 			//if token != "admin" {         // adminという文字列か見る
 			//	// エラーレスポンスを返す
