@@ -2,8 +2,9 @@ package main
 
 import (
 	"net/http"
-	router2 "prac-orm-transaction/api/router"
+	"prac-orm-transaction/config"
 	"prac-orm-transaction/di"
+	router2 "prac-orm-transaction/presentation/router"
 )
 
 func main() {
@@ -11,15 +12,8 @@ func main() {
 	router := router2.NewServer()
 	//ルーティングとDI
 	di.InsertUserDI(router)
-	//if *router. {
-	//	// fmt.Println(docgen.JSONRoutesDoc(r))
-	//	fmt.Println(docgen.MarkdownRoutesDoc(r, docgen.MarkdownOpts{
-	//		ProjectPath: "github.com/go-chi/chi/v5",
-	//		Intro:       "Welcome to the chi/_examples/rest generated docs.",
-	//	}))
-	//	return
-	//}
 
+	port := config.GetServerPort()
 	//ルーター起動
-	http.ListenAndServe(":8000", router.Router)
+	http.ListenAndServe(port, router.Router)
 }

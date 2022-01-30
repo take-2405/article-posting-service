@@ -30,6 +30,9 @@ go run cmd/main.go
 #### 開発フロー
 - git-flow
 
+#### 認証
+- APIキー認証
+
 #### 使用AFW
 - chi
 
@@ -43,7 +46,7 @@ go lint は非推奨のため未使用
 #### ディレクトリ構成
 ```
 ./
-├── api
+├── presentation
 │   ├── controller
 │   ├── middleware
 │   ├── request

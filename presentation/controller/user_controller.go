@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	request2 "prac-orm-transaction/api/request"
-	"prac-orm-transaction/api/response"
-	"prac-orm-transaction/application"
+	request2 "prac-orm-transaction/presentation/request"
+	"prac-orm-transaction/presentation/response"
+	"prac-orm-transaction/usecase"
 )
 
 type UserHandler interface {
@@ -16,10 +16,10 @@ type UserHandler interface {
 }
 
 type userHandler struct {
-	userUseCase application.UserUseCase
+	userUseCase usecase.UserUseCase
 }
 
-func NewUserHandler(userUseCase application.UserUseCase) *userHandler {
+func NewUserHandler(userUseCase usecase.UserUseCase) *userHandler {
 	return &userHandler{userUseCase: userUseCase}
 }
 
@@ -40,7 +40,6 @@ func (uh *userHandler) CreateUserAccount() http.HandlerFunc {
 			response.RespondError(writer, http.StatusInternalServerError, err)
 			return
 		}
-
 
 		writer.Write([]byte(token))
 	}

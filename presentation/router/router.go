@@ -4,8 +4,8 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"net/http"
-	middleware2 "prac-orm-transaction/api/middleware"
-	"prac-orm-transaction/api/controller"
+	"prac-orm-transaction/presentation/controller"
+	middleware2 "prac-orm-transaction/presentation/middleware"
 	"time"
 )
 
@@ -20,7 +20,7 @@ func NewServer() *Server {
 }
 
 // Router ルーティング設定
-func (s *Server) Routing(uh controller.UserHandler) {
+func (s *Server) Routing(uh controller.UserHandler, ah controller.ArticleHandler) {
 	s.Router.Use(middleware.Timeout(60 * time.Second))
 	s.Router.Use(middleware.Logger)
 	s.Router.Route("/sign", func(api chi.Router) {
@@ -35,17 +35,15 @@ func (s *Server) Routing(uh controller.UserHandler) {
 	s.Router.Route("/article", func(api chi.Router) {
 		api.Use(middleware2.Auth()) // /api/*で必ず通るミドルウェア
 		api.Route("/create", func(create chi.Router) {
-			create.Post("/",func(w http.ResponseWriter, r *http.Request) {
-				w.Write([]byte("create"))
-			})
+			create.Post("/", ah.CreateArticle())
 		})
 		api.Route("/fix", func(fix chi.Router) {
-			fix.Put("/",func(w http.ResponseWriter, r *http.Request) {
+			fix.Put("/", func(w http.ResponseWriter, r *http.Request) {
 				w.Write([]byte("fix"))
 			})
 		})
 		api.Route("/search", func(search chi.Router) {
-			search.Put("/",func(w http.ResponseWriter, r *http.Request) {
+			search.Put("/", func(w http.ResponseWriter, r *http.Request) {
 				w.Write([]byte("search"))
 			})
 		})
