@@ -30,6 +30,9 @@ go run cmd/main.go
 #### 開発フロー
 - git-flow
 
+#### 認証
+- APIキー認証
+
 #### 使用AFW
 - chi
 
