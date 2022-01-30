@@ -10,7 +10,7 @@ import (
 type ArticleUseCase interface {
 	CreateArticle(title, description, content, userID string, images, tags []string) (string, error)
 	FixArticle(request.FixArticleRequest) (string, error)
-	DeleteArticle(id, pass string) error
+	DeleteArticle(articleID, userID string) error
 	SearchArticle(id, pass string) (string, error)
 	SearchArticles(id, pass string) (string, error)
 	SendArticles(id, pass string) (string, error)
@@ -48,9 +48,12 @@ func (au articleUseCase) FixArticle(request.FixArticleRequest) (string, error) {
 	panic("implement me")
 }
 
-func (au articleUseCase) DeleteArticle(id, pass string) error {
-	//TODO implement me
-	panic("implement me")
+func (au articleUseCase) DeleteArticle(articleID, userID string) error {
+	if err := au.article.DeleteArticle(articleID, userID); err != nil {
+		log.Println(err)
+		return err
+	}
+	return nil
 }
 
 func (au articleUseCase) SearchArticle(id, pass string) (string, error) {

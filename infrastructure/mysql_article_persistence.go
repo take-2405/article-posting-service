@@ -1,6 +1,7 @@
 package infrastructure
 
 import (
+	"errors"
 	"fmt"
 	"github.com/google/uuid"
 	"github.com/jinzhu/gorm"
@@ -77,7 +78,22 @@ func (a *articlePersistence) FixArticle() error {
 	return nil
 }
 
-func (a *articlePersistence) DeleteArticle() error {
+func (a *articlePersistence) DeleteArticle(articleID, userID string) error {
+	var article table.Articles
+	if err := a.mysql.Client.Raw("SELECT * FROM articles WHERE id = ? AND user_id = ?", articleID, userID).Scan(&article).Error; err != nil {
+		log.Println(err)
+		return err
+	}
+	if article.Title == "" {
+		err := errors.New("this request user has not this article.")
+		log.Println(err)
+		return err
+	}
+
+	if err := a.mysql.Client.Delete(&article).Error; err != nil {
+		log.Println(err)
+		return err
+	}
 	return nil
 }
 

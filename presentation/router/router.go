@@ -47,6 +47,9 @@ func (s *Server) Routing(uh controller.AuthHandler, ah controller.ArticleHandler
 				w.Write([]byte("search"))
 			})
 		})
+		api.Route("/delete", func(delete chi.Router) {
+			delete.Delete("/", ah.DeleteArticle())
+		})
 	})
 
 	s.Router.Get("/", func(w http.ResponseWriter, r *http.Request) {

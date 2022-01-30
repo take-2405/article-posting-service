@@ -6,11 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="0864b16b-5c0a-4968-aa34-ce677196accc" name="変更" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/di/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/di/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/presentation/controller/user_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/presentation/controller/auth_controller.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/repository/article_repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/repository/article_repository.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/infrastructure/mysql_article_persistence.go" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/mysql_article_persistence.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/presentation/controller/article_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/presentation/controller/article_controller.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/presentation/router/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/presentation/router/router.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/usecase/user_application.go" beforeDir="false" afterPath="$PROJECT_DIR$/usecase/auth_application.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/usecase/article_application.go" beforeDir="false" afterPath="$PROJECT_DIR$/usecase/article_application.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

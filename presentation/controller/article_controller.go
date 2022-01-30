@@ -2,6 +2,7 @@ package controller
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"log"
 	"net/http"
@@ -13,7 +14,7 @@ import (
 type ArticleHandler interface {
 	CreateArticle() http.HandlerFunc
 	//FixArticle() http.HandlerFunc
-	//DeleteArticle() http.HandlerFunc
+	DeleteArticle() http.HandlerFunc
 	//SearchArticles() http.HandlerFunc
 	//SendArticles() http.HandlerFunc
 }
@@ -78,5 +79,26 @@ func (ah *articleHandler) FixArticle() http.HandlerFunc {
 		}
 
 		writer.Write([]byte(articleID))
+	}
+}
+
+func (ah *articleHandler) DeleteArticle() http.HandlerFunc {
+	return func(writer http.ResponseWriter, request *http.Request) {
+		// リクエストBodyから更新後情報を取得
+		userID := request.Header.Get("userID")
+		articleID := request.Header.Get("articleID")
+
+		if articleID == "" {
+			response.RespondError(writer, http.StatusInternalServerError, errors.New("request  is error"))
+			return
+		}
+
+		err := ah.articleUseCase.DeleteArticle(articleID, userID)
+		if err != nil {
+			response.RespondError(writer, http.StatusInternalServerError, err)
+			return
+		}
+
+		writer.Write([]byte("delete success"))
 	}
 }
