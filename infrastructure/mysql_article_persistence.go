@@ -21,7 +21,7 @@ func NewArticlePersistence(mysqlConn mysqlRepository) repository.ArticleReposito
 	return &articlePersistence{mysql: mysqlConn}
 }
 
-func (a *articlePersistence) CreateNewArticle(articleID, title, description, content, userID string, tags []string) error {
+func (a *articlePersistence) CreateNewArticle(articleID, title, description, content, userID string, tags, images []string) error {
 	var article table.Articles
 	article.ID = articleID
 	article.Title = title
@@ -74,7 +74,35 @@ func (a *articlePersistence) CreateNewArticle(articleID, title, description, con
 	return nil
 }
 
-func (a *articlePersistence) FixArticle() error {
+func (a *articlePersistence) FixArticle(articleID, title, description, content, userID string, tags, images []string) error {
+	var article table.Articles
+	if err := a.mysql.Client.Raw("SELECT * FROM articles WHERE id = ? AND user_id = ?", articleID, userID).Scan(&article).Error; err != nil {
+		log.Println(err)
+		return err
+	}
+	if article.Title == "" {
+		err := errors.New("this request user has not this article.")
+		log.Println(err)
+		return err
+	}
+
+	if content != "" {
+		article.Contents = content
+	}
+
+	if title != "" {
+		article.Title = title
+	}
+
+	if description != "" {
+		article.Description = description
+	}
+	log.Println("aa")
+	if err := a.mysql.Client.Save(&article).Error; err != nil {
+		log.Println(err)
+		return err
+	}
+
 	return nil
 }
 

@@ -9,6 +9,7 @@
       <change beforePath="$PROJECT_DIR$/domain/repository/article_repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/repository/article_repository.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/infrastructure/mysql_article_persistence.go" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/mysql_article_persistence.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/presentation/controller/article_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/presentation/controller/article_controller.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/presentation/request/article.go" beforeDir="false" afterPath="$PROJECT_DIR$/presentation/request/article.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/presentation/router/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/presentation/router/router.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/usecase/article_application.go" beforeDir="false" afterPath="$PROJECT_DIR$/usecase/article_application.go" afterDir="false" />
     </list>

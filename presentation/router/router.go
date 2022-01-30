@@ -38,9 +38,7 @@ func (s *Server) Routing(uh controller.AuthHandler, ah controller.ArticleHandler
 			create.Post("/", ah.CreateArticle())
 		})
 		api.Route("/fix", func(fix chi.Router) {
-			fix.Put("/", func(w http.ResponseWriter, r *http.Request) {
-				w.Write([]byte("fix"))
-			})
+			fix.Put("/", ah.FixArticle())
 		})
 		api.Route("/search", func(search chi.Router) {
 			search.Put("/", func(w http.ResponseWriter, r *http.Request) {
