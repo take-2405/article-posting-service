@@ -27,6 +27,10 @@ go run cmd/main.go
 本リポジトリでは、Qiitaのような記事管理サービスを想定し、あまり触れたことのないライブラリ（chi、orm）の使用と
 **DDD+CQRS**を採用した開発になれることを目的としている．
 
+#### 基本仕様
+- 各エンドポイントのリクエスト&レスポンスは「./docsのsystem-request-response.md」に記載
+- 現時点では、「sign/up」「sign/in」「article/create」を実装ずみ
+
 #### 開発フロー
 - git-flow
 
