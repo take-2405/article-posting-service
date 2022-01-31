@@ -2,6 +2,7 @@ package controller
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"log"
 	"net/http"
@@ -12,8 +13,8 @@ import (
 
 type ArticleHandler interface {
 	CreateArticle() http.HandlerFunc
-	//FixArticle() http.HandlerFunc
-	//DeleteArticle() http.HandlerFunc
+	FixArticle() http.HandlerFunc
+	DeleteArticle() http.HandlerFunc
 	//SearchArticles() http.HandlerFunc
 	//SendArticles() http.HandlerFunc
 }
@@ -61,22 +62,55 @@ func (ah *articleHandler) CreateArticle() http.HandlerFunc {
 
 func (ah *articleHandler) FixArticle() http.HandlerFunc {
 	return func(writer http.ResponseWriter, request *http.Request) {
+		userID := request.Header.Get("userID")
+		articleID := request.Header.Get("ArticleID")
+		var images []string
+		var tags []string
+
 		// リクエストBodyから更新後情報を取得
 		var fixArticleRequest request2.FixArticleRequest
 		json.NewDecoder(request.Body).Decode(&fixArticleRequest)
-
-		if fixArticleRequest.Id == "" {
+		if fixArticleRequest.Content == "" || fixArticleRequest.Title == "" || fixArticleRequest.Description == "" {
 			log.Println("[ERROR] request bucket is err")
 			response.RespondError(writer, http.StatusBadRequest, fmt.Errorf("リクエスト情報が不足しています"))
 			return
 		}
 
-		articleID, err := ah.articleUseCase.FixArticle(fixArticleRequest)
+		for _, image := range fixArticleRequest.Images {
+			images = append(images, image.Image)
+		}
+		for _, tag := range fixArticleRequest.Tags {
+			tags = append(tags, tag.Tag)
+		}
+
+		err := ah.articleUseCase.FixArticle(fixArticleRequest.Title, fixArticleRequest.Description,
+			fixArticleRequest.Content, userID, articleID, images, tags)
 		if err != nil {
 			response.RespondError(writer, http.StatusInternalServerError, err)
 			return
 		}
 
 		writer.Write([]byte(articleID))
+	}
+}
+
+func (ah *articleHandler) DeleteArticle() http.HandlerFunc {
+	return func(writer http.ResponseWriter, request *http.Request) {
+		// リクエストBodyから更新後情報を取得
+		userID := request.Header.Get("userID")
+		articleID := request.Header.Get("ArticleID")
+
+		if articleID == "" {
+			response.RespondError(writer, http.StatusInternalServerError, errors.New("request  is error"))
+			return
+		}
+
+		err := ah.articleUseCase.DeleteArticle(articleID, userID)
+		if err != nil {
+			response.RespondError(writer, http.StatusInternalServerError, err)
+			return
+		}
+
+		writer.Write([]byte("delete success"))
 	}
 }

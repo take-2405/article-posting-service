@@ -9,12 +9,11 @@ type CreateArticleRequest struct {
 }
 
 type FixArticleRequest struct {
-	Id          string   `json:"article_id"`
-	Title       string   `json:"title"`
-	Description string   `json:"description"`
-	Content     string   `json:"content"`
-	Images      []string `json:"images"`
-	Tags        []tag    `json:"tags"`
+	Title       string  `json:"title"`
+	Description string  `json:"description"`
+	Content     string  `json:"content"`
+	Images      []image `json:"images"`
+	Tags        []tag   `json:"tags"`
 }
 
 type image struct {

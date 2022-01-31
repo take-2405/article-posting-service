@@ -20,12 +20,12 @@ func NewServer() *Server {
 }
 
 // Router ルーティング設定
-func (s *Server) Routing(uh controller.UserHandler, ah controller.ArticleHandler) {
+func (s *Server) Routing(uh controller.AuthHandler, ah controller.ArticleHandler) {
 	s.Router.Use(middleware.Timeout(60 * time.Second))
 	s.Router.Use(middleware.Logger)
 	s.Router.Route("/sign", func(api chi.Router) {
 		api.Route("/up", func(signup chi.Router) {
-			signup.Post("/", uh.CreateUserAccount())
+			signup.Post("/", uh.SignUp())
 		})
 		api.Route("/in", func(signin chi.Router) {
 			signin.Post("/", uh.SignIn())
@@ -38,14 +38,15 @@ func (s *Server) Routing(uh controller.UserHandler, ah controller.ArticleHandler
 			create.Post("/", ah.CreateArticle())
 		})
 		api.Route("/fix", func(fix chi.Router) {
-			fix.Put("/", func(w http.ResponseWriter, r *http.Request) {
-				w.Write([]byte("fix"))
-			})
+			fix.Put("/", ah.FixArticle())
 		})
 		api.Route("/search", func(search chi.Router) {
 			search.Put("/", func(w http.ResponseWriter, r *http.Request) {
 				w.Write([]byte("search"))
 			})
+		})
+		api.Route("/delete", func(delete chi.Router) {
+			delete.Delete("/", ah.DeleteArticle())
 		})
 	})
 

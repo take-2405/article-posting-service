@@ -6,20 +6,20 @@ import (
 	"prac-orm-transaction/domain/repository"
 )
 
-type UserUseCase interface {
-	CreateUserAccount(id, pass string) (string, error)
+type AuthUseCase interface {
+	SignUp(id, pass string) (string, error)
 	SignIn(id, pass string) (string, error)
 }
 
-type userUseCase struct {
+type authUseCase struct {
 	user repository.UserRepository
 }
 
-func NewUserUseCase(user repository.UserRepository) *userUseCase {
-	return &userUseCase{user: user}
+func NewAuthUseCase(user repository.UserRepository) *authUseCase {
+	return &authUseCase{user: user}
 }
 
-func (uu userUseCase) CreateUserAccount(id, pass string) (string, error) {
+func (uu authUseCase) SignUp(id, pass string) (string, error) {
 	var token string
 
 	uuid, err := uuid.NewRandom()
@@ -38,7 +38,7 @@ func (uu userUseCase) CreateUserAccount(id, pass string) (string, error) {
 	return token, nil
 }
 
-func (uu userUseCase) SignIn(id, pass string) (string, error) {
+func (uu authUseCase) SignIn(id, pass string) (string, error) {
 	var token string
 
 	uuid, err := uuid.NewRandom()

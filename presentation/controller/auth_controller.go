@@ -10,20 +10,20 @@ import (
 	"prac-orm-transaction/usecase"
 )
 
-type UserHandler interface {
-	CreateUserAccount() http.HandlerFunc
+type AuthHandler interface {
+	SignUp() http.HandlerFunc
 	SignIn() http.HandlerFunc
 }
 
-type userHandler struct {
-	userUseCase usecase.UserUseCase
+type authHandler struct {
+	authUseCase usecase.AuthUseCase
 }
 
-func NewUserHandler(userUseCase usecase.UserUseCase) *userHandler {
-	return &userHandler{userUseCase: userUseCase}
+func NewUserHandler(authUseCase usecase.AuthUseCase) *authHandler {
+	return &authHandler{authUseCase: authUseCase}
 }
 
-func (uh *userHandler) CreateUserAccount() http.HandlerFunc {
+func (uh *authHandler) SignUp() http.HandlerFunc {
 	return func(writer http.ResponseWriter, request *http.Request) {
 		// リクエストBodyから更新後情報を取得
 		var accountInfo request2.CreateUserAccountRequest
@@ -35,7 +35,7 @@ func (uh *userHandler) CreateUserAccount() http.HandlerFunc {
 			return
 		}
 
-		token, err := uh.userUseCase.CreateUserAccount(accountInfo.ID, accountInfo.Pass)
+		token, err := uh.authUseCase.SignUp(accountInfo.ID, accountInfo.Pass)
 		if err != nil {
 			response.RespondError(writer, http.StatusInternalServerError, err)
 			return
@@ -45,7 +45,7 @@ func (uh *userHandler) CreateUserAccount() http.HandlerFunc {
 	}
 }
 
-func (uh *userHandler) SignIn() http.HandlerFunc {
+func (uh *authHandler) SignIn() http.HandlerFunc {
 	return func(writer http.ResponseWriter, request *http.Request) {
 		// リクエストBodyから更新後情報を取得
 		var accountInfo request2.CreateUserAccountRequest
@@ -57,7 +57,7 @@ func (uh *userHandler) SignIn() http.HandlerFunc {
 			return
 		}
 
-		token, err := uh.userUseCase.SignIn(accountInfo.ID, accountInfo.Pass)
+		token, err := uh.authUseCase.SignIn(accountInfo.ID, accountInfo.Pass)
 		if err != nil {
 			response.RespondError(writer, http.StatusInternalServerError, err)
 			return

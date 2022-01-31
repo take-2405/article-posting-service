@@ -13,7 +13,7 @@ func InsertUserDI(router *router.Server) {
 	userQuery := infrastructure.NewUserPersistence(*conn)
 	articleQuery := infrastructure.NewArticlePersistence(*conn)
 
-	userUseCase := usecase.NewUserUseCase(userQuery)
+	userUseCase := usecase.NewAuthUseCase(userQuery)
 	articleUseCase := usecase.NewArticleUseCase(articleQuery)
 
 	useHandler := controller.NewUserHandler(userUseCase)
