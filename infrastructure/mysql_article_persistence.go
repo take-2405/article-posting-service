@@ -121,6 +121,7 @@ func (a *articlePersistence) FixArticle(articleID, title, description, content, 
 		log.Println(err)
 		return err
 	}
+
 	if len(tags) > 0 {
 		bulkInsertTagQuery := "INSERT INTO article_tags (`id`,`article_id`,`tag`) VALUES"
 		var bulkInsertTag []string
@@ -142,10 +143,16 @@ func (a *articlePersistence) FixArticle(articleID, title, description, content, 
 		}
 		bulkInsertTagQuery += strings.Join(bulkInsertTag, "")
 
-		a.mysql.Client.Transaction(func(tx *gorm.DB) error {
+		err := a.mysql.Client.Transaction(func(tx *gorm.DB) error {
 			var deleteTag table.ArticleTag
+
 			deleteTag.ArticleID = articleID
-			if err := tx.Delete(&deleteTag).Error; err != nil {
+			//if err := tx.Where("article_id = ?", articleID).Find(&oldTag).Error; err != nil {
+			//	log.Println(err)
+			//	return err
+			//}
+			//log.Println(oldTag)
+			if err := tx.Where("article_id = ?", deleteTag.ArticleID).Delete(&deleteTag).Error; err != nil {
 				log.Println(err)
 				return err
 			}
@@ -156,6 +163,10 @@ func (a *articlePersistence) FixArticle(articleID, title, description, content, 
 			}
 			return nil
 		})
+		if err != nil {
+			log.Println(err)
+			return err
+		}
 	}
 
 	if len(images) > 0 {
@@ -179,10 +190,10 @@ func (a *articlePersistence) FixArticle(articleID, title, description, content, 
 		}
 		bulkInsertImageQuery += strings.Join(bulkInsertImage, "")
 
-		a.mysql.Client.Transaction(func(tx *gorm.DB) error {
+		err := a.mysql.Client.Transaction(func(tx *gorm.DB) error {
 			var deleteImage table.ArticleImage
 			deleteImage.ArticleID = articleID
-			if err := tx.Delete(&deleteImage).Error; err != nil {
+			if err := tx.Where("article_id = ?", deleteImage.ArticleID).Delete(&deleteImage).Error; err != nil {
 				log.Println(err)
 				return err
 			}
@@ -192,6 +203,10 @@ func (a *articlePersistence) FixArticle(articleID, title, description, content, 
 			}
 			return nil
 		})
+		if err != nil {
+			log.Println(err)
+			return err
+		}
 	}
 
 	if err := a.mysql.Client.Save(&article).Error; err != nil {
@@ -206,8 +221,6 @@ func (a *articlePersistence) DeleteArticle(articleID, userID string) error {
 	var article table.Articles
 	var image table.ArticleImage
 	var tag table.ArticleTag
-	image.ArticleID = articleID
-	tag.ArticleID = articleID
 
 	if err := a.mysql.Client.Raw("SELECT * FROM articles WHERE id = ? AND user_id = ?", articleID, userID).Scan(&article).Error; err != nil {
 		log.Println(err)
@@ -219,21 +232,25 @@ func (a *articlePersistence) DeleteArticle(articleID, userID string) error {
 		return err
 	}
 
-	a.mysql.Client.Transaction(func(tx *gorm.DB) error {
-		if err := tx.Delete(&article).Error; err != nil {
+	err := a.mysql.Client.Transaction(func(tx *gorm.DB) error {
+		if err := tx.Where("id = ?", articleID).Delete(&article).Error; err != nil {
 			log.Println(err)
 			return err
 		}
-		if err := tx.Delete(&image).Error; err != nil {
+		if err := tx.Where("article_id = ?", articleID).Delete(&image).Error; err != nil {
 			log.Println(err)
 			return err
 		}
-		if err := tx.Delete(&tag).Error; err != nil {
+		if err := tx.Where("article_id = ?", articleID).Delete(&tag).Error; err != nil {
 			log.Println(err)
 			return err
 		}
 		return nil
 	})
+	if err != nil {
+		log.Println(err)
+		return err
+	}
 
 	return nil
 }
