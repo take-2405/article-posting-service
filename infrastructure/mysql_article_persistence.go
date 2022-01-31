@@ -97,7 +97,6 @@ func (a *articlePersistence) FixArticle(articleID, title, description, content, 
 	if description != "" {
 		article.Description = description
 	}
-	log.Println("aa")
 	if err := a.mysql.Client.Save(&article).Error; err != nil {
 		log.Println(err)
 		return err
